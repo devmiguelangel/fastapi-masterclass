@@ -1,0 +1,17 @@
+version: '3'
+
+volumes:
+  db: {}
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: devmiguelangel/ms-api:latest
+    container_name: ms_api
+    volumes:
+      - ./api:/api
+    ports:
+      - '8001:8001'
+    restart: unless-stopped
