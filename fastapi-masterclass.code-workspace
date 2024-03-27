@@ -9,8 +9,8 @@
       "name": "COMPOSE"
     },
     {
-      "path": "./images",
-      "name": "IMAGES"
+      "path": "./docs",
+      "name": "DOCS"
     }
   ],
   "settings": {}
