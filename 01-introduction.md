@@ -1,10 +1,10 @@
-# Introduction and basics
+## Introduction and basics
 
-## Overview of FastAPI
+### 👉 Overview of FastAPI [🔗](https://fastapi.tiangolo.com/)
 
 FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.8+ based on standard Python type hints.
 
-## Installation and project setup
+### 👉 Installation and project setup
 
 ```bash
 # Create a new virtual environment
@@ -23,7 +23,7 @@ pip install "uvicorn[standard]"
 deactivate
 ```
 
-## Creating your first FastAPI application
+### 👉 Creating your first FastAPI application
 
 ```bash
 # Run de application
@@ -40,7 +40,3 @@ INFO:     127.0.0.1:51119 - "GET /favicon.ico HTTP/1.1" 404 Not Found
 ```
 
 ![FastAPI](./images/00.png)
-
-## Resources
-
-[FastAPI](https://fastapi.tiangolo.com/)

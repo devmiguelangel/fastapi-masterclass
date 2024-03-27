@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "./api",
+      "name": "API"
+		},
+    {
+      "path": "./compose",
+      "name": "COMPOSE"
+    },
+    {
+      "path": "./images",
+      "name": "IMAGES"
+    }
+  ],
+  "settings": {}
+}
