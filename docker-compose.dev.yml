@@ -14,4 +14,17 @@ services:
       - ./api:/api
     ports:
       - '8001:8001'
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:16.2-alpine
+    container_name: ms_db
+    volumes:
+      - db:/var/lib/postgresql/data
+    env_file:
+      - ./compose/db.env
+    ports:
+      - '5432:5432'
     restart: unless-stopped
