@@ -1,10 +1,18 @@
-from typing import Optional
-
 from pydantic import BaseModel
 
 
-class PostSchema(BaseModel):
+class PostBase(BaseModel):
     title: str
     content: str
     published: bool = True
-    rating: Optional[int] = None
+
+
+class PostCreateSchema(PostBase):
+    pass
+
+
+class PostResponseSchema(PostBase):
+    published: bool
+
+    class Config:
+        from_attributes = True

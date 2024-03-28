@@ -8,3 +8,4 @@ This repository contains the code and notes for the FastAPI course.
 ### [Managing Dependencies with Poetry and Ruff](./docs/02-poetry-ruff.md)
 ### [Dive into FastAPI](./docs/03-dive-into.md)
 ### [FastAPI Models and Pydantic](./docs/04-pydantic.md)
+### [Database Integration](./docs/05-database.md)
