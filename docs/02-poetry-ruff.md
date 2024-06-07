@@ -101,38 +101,134 @@ poetry run uvicorn main:app --reload
 
 ![Poetry Run](./images/poetry-run.png)
 
+## Introduction to Ruff [🔗](https://docs.astral.sh/ruff/)
 
+Writing clean and error-free Python code is crucial for maintaining code quality, readability, and reliability in software development projects. This is where Python linters come into play, and among them, Ruff stands out as a powerful tool for ensuring your Python code adheres to best practices and coding standards.
 
+Ruff is a relatively new Python linter that has gained immense popularity over the years due to its speed and integration of multiple linters. Ruff is open source, making it accessible to developers of all levels. It supports integration with popular code editors like Visual Studio Code, Sublime Text, and PyCharm. While Ruff may be relatively new, it benefits from active development and a growing community and has the capabilities to replace [Flake8](https://pypi.org/project/flake8/) (plus dozens of plugins), [isort](https://pypi.org/project/isort/), [pydocstyle](https://pypi.org/project/pydocstyle/), [yesqa](https://github.com/asottile/yesqa), [eradicate](https://pypi.org/project/eradicate/), [pyupgrade](https://pypi.org/project/pyupgrade/), and [autoflake](https://pypi.org/project/autoflake/). Moreover, developers are continually improving the tool and adding new features, making it a promising choice for the future.
 
+![Ruff](./images/ruff.png)
 
+### 👉 Installation
 
+```bash
+poetry add ruff
+```
 
+```bash
+# Check the code
+ruff check .
 
+# Fix the code
+ruff check --fix .
 
+# Lint all files in `/path/to/code` (and any subdirectories)
+$ ruff check path/to/code/
 
+# Lint all `.py` files in `/path/to/code`
+$ ruff check path/to/code/*.py
 
+# Lint `file.py`
+$ ruff check path/to/code/to/file.py
 
+# Watch mode
+ruff check path/to/code/ --watch
+```
 
-Learn about Poetry, a dependency management and packaging tool for Python.
-Install Poetry and initialize a new project.
-Understand how Poetry simplifies dependency management and project packaging.
+### 👉 Configuration
 
-### Managing Project Dependencies with Poetry
-Dive deeper into managing dependencies with Poetry.
-Add FastAPI and other necessary dependencies to your project using Poetry.
-Explore Poetry's features like version constraints, dependency resolution, and lock files.
+To configure Ruff, you will use a *ruff.toml* file or a *pyproject.toml* file. All configurations in this file will be under the section `[tool.ruff]`. By default Ruff supports pyflakes and pycodestyle rules (the basis of Flake8) but you can configure more rules from more than [40 plugins](https://beta.ruff.rs/docs/rules/) implemented like [pyupgrade](https://pypi.org/project/pyupgrade/) and [isort](https://pycqa.github.io/isort/) (yes you can even sort imports with Ruff!).
 
-### Creating a FastAPI Project with Poetry
-Combine your knowledge of FastAPI with Poetry.
-Set up a new FastAPI project using Poetry for dependency management.
-Configure project structure and dependencies effectively.
+```toml
+[tool.ruff]
+line-length = 120
+output-format = "grouped"
+extend-exclude = ["alembic"]
 
-### Introduction to API Testing with Ruff
-Learn about Ruff, a Python library for API testing.
-Understand the importance of automated testing in API development.
-Install Ruff and set up a basic testing environment.
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",   # pyflakes
+    "UP",  # pyupgrade,
+    "I",   # isort
+    "D4",  # flake8-docstrings
+    "PT",  # flake8-pytest
+    "PL",  # flake8-pytest-style
+    "Q",  # flake8-quotes
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = ["D401", "D417"]
 
-### Writing API Tests with Ruff
-Start writing API tests using Ruff.
-Create test cases to verify endpoint functionality, request validation, and response formats.
-Explore Ruff's features for test organization, assertions, and fixtures.
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+multiline-quotes = "double"
+docstring-quotes = "double"
+
+[tool.ruff.format]
+# Use single quotes rather than double quotes.
+quote-style = "single"
+```
+
+### 👉 **Ignoring errors**
+
+- On line level
+
+```python
+def sum_even_numbers(numbers: List[int]) -> int:  # noqa: UP006
+                pass
+```
+
+- On the entire file
+
+```python
+# ruff: noqa: UP006
+from typing import List
+```
+
+- In the configuration file
+
+```toml
+# Enable flake8-bugbear (`B`) rules.
+select = ["E", "F", "B"]
+
+# Never enforce `E501` (line length violations).
+ignore = ["E501"]
+
+# Avoid trying to fix flake8-bugbear (`B`) violations.
+unfixable = ["B"]
+
+# Ignore `E402` (import violations) in all `__init__.py` files, and in `path/to/file.py`.
+[per-file-ignores]
+"__init__.py" = ["E402"]
+"path/to/file.py" = ["E402"]
+```
+
+### 👉 CI / CD
+
+To help with your workflow, Ruff comes with a [pre-commit](https://docs.astral.sh/ruff/integrations/#pre-commit) hook you can use.
+
+```yaml
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  # Ruff version.
+  rev: 'v0.0.257'
+  hooks:
+    - id: ruff
+
+# Enabling auto-fix
+
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  # Ruff version.
+  rev: 'v0.0.258'
+  hooks:
+    - id: ruff
+      args: [--fix, --exit-non-zero-on-fix]
+```
+
+### 🔗 Resources
+[Poetry: finally an all-in-one tool to manage python packages](https://medium.com/analytics-vidhya/poetry-finally-an-all-in-one-tool-to-manage-python-packages-3c4d2538e828)
+
+[Integrations - Ruff](https://docs.astral.sh/ruff/integrations/#vs-code-official)
+
+[Python: lint code faster](https://lewoudar.medium.com/python-lint-code-faster-91f0e04ee6fc)
