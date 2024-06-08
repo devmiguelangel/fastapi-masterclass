@@ -42,8 +42,6 @@ cd pre-existing-project
 poetry init
 ```
 
-![Poetry Setup](./images/poetry-setup.png)
-
 ### 👉 Overview
 ```toml
 [tool.poetry]
@@ -99,15 +97,12 @@ poetry env info
 poetry run uvicorn main:app --reload
 ```
 
-![Poetry Run](./images/poetry-run.png)
 
 ## Introduction to Ruff [🔗](https://docs.astral.sh/ruff/)
 
 Writing clean and error-free Python code is crucial for maintaining code quality, readability, and reliability in software development projects. This is where Python linters come into play, and among them, Ruff stands out as a powerful tool for ensuring your Python code adheres to best practices and coding standards.
 
 Ruff is a relatively new Python linter that has gained immense popularity over the years due to its speed and integration of multiple linters. Ruff is open source, making it accessible to developers of all levels. It supports integration with popular code editors like Visual Studio Code, Sublime Text, and PyCharm. While Ruff may be relatively new, it benefits from active development and a growing community and has the capabilities to replace [Flake8](https://pypi.org/project/flake8/) (plus dozens of plugins), [isort](https://pypi.org/project/isort/), [pydocstyle](https://pypi.org/project/pydocstyle/), [yesqa](https://github.com/asottile/yesqa), [eradicate](https://pypi.org/project/eradicate/), [pyupgrade](https://pypi.org/project/pyupgrade/), and [autoflake](https://pypi.org/project/autoflake/). Moreover, developers are continually improving the tool and adding new features, making it a promising choice for the future.
-
-![Ruff](./images/ruff.png)
 
 ### 👉 Installation
 
