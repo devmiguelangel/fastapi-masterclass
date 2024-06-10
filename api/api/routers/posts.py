@@ -18,5 +18,6 @@ def get_posts(session: Session = Depends(get_db)) -> List[PostOutputSchema]:
     return _service.get_all()
 
 @router.post('/')
-def create_post(new_post: PostCreateSchema):
-    return {'data': new_post}
+def create_post(data: PostCreateSchema, session: Session = Depends(get_db)) -> PostOutputSchema:
+    _service = PostService(session)
+    return _service.create(data)
