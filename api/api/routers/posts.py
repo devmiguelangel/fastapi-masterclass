@@ -1,15 +1,21 @@
-from fastapi import APIRouter
+from typing import List
 
-from api.schemas.posts import PostCreateSchema
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+
+from api.models.database import get_db
+from api.schemas.post_schema import PostCreateSchema, PostOutputSchema
+from api.services.post_service import PostService
 
 router = APIRouter(
     prefix='/posts',
     tags=['posts'],
 )
 
-@router.get('/')
-def get_posts():
-    return {'data': 'blog posts'}
+@router.get('/', response_model=List[PostOutputSchema])
+def get_posts(session: Session = Depends(get_db)) -> List[PostOutputSchema]:
+    _service = PostService(session)
+    return _service.get_all()
 
 @router.post('/')
 def create_post(new_post: PostCreateSchema):
