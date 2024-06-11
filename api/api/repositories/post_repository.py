@@ -1,5 +1,6 @@
 from typing import List, Optional
 
+from pydantic import UUID4
 from sqlalchemy.orm import Session
 
 from api.models.posts import Post
@@ -13,6 +14,13 @@ class PostRepository:
     def get_all(self) -> List[Optional[PostOutputSchema]]:
         posts = self.db.query(Post).all()
         return [PostOutputSchema(**post.__dict__) for post in posts]
+
+    def get_by_id(self, id: UUID4) -> Optional[PostOutputSchema]:
+        post = self.db.query(Post).filter(Post.id == id).first()
+
+        if post:
+            return PostOutputSchema(**post.__dict__)
+        return None
 
     def create(self, data: PostCreateSchema) -> PostOutputSchema:
         post = Post(**data.model_dump())
