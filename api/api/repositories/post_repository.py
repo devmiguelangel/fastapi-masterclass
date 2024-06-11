@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Type
 
 from pydantic import UUID4
 from sqlalchemy.orm import Session
@@ -15,12 +15,8 @@ class PostRepository:
         posts = self.db.query(Post).all()
         return [PostOutputSchema(**post.__dict__) for post in posts]
 
-    def get_by_id(self, id: UUID4) -> Optional[PostOutputSchema]:
-        post = self.db.query(Post).filter(Post.id == id).first()
-
-        if post:
-            return PostOutputSchema(**post.__dict__)
-        return None
+    def get_by_id(self, id: UUID4) -> Type[Optional[Post]]:
+        return self.db.query(Post).filter(Post.id == id).first()
 
     def create(self, data: PostCreateSchema) -> PostOutputSchema:
         post = Post(**data.model_dump())
@@ -29,3 +25,8 @@ class PostRepository:
         self.db.refresh(post)
 
         return PostOutputSchema(**post.__dict__)
+
+    def delete(self, post: Type[Post]) -> bool:
+        self.db.delete(post)
+        self.db.commit()
+        return True

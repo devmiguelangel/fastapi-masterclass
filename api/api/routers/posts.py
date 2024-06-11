@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from pydantic import UUID4
 from sqlalchemy.orm import Session
 
@@ -13,22 +13,22 @@ router = APIRouter(
     tags=['posts'],
 )
 
-@router.get('/', response_model=List[PostOutputSchema])
+@router.get('/', status_code=200, response_model=List[PostOutputSchema])
 def get_posts(session: Session = Depends(get_db)) -> List[PostOutputSchema]:
     _service = PostService(session)
     return _service.get_all()
 
-@router.get('/{id}', response_model=PostOutputSchema)
-def get_post(id: UUID4, session: Session = Depends(get_db)) -> PostOutputSchema:
+@router.get('/{id}', status_code=200, response_model=PostOutputSchema)
+def get_post(id: UUID4, session: Session = Depends(get_db)):
     _service = PostService(session)
-    post = _service.get_by_id(id)
+    return _service.get_by_id(id)
 
-    if not post:
-        raise HTTPException(status_code=404, detail='Post not found')
-
-    return post
-
-@router.post('/')
+@router.post('/', status_code=201, response_model=PostOutputSchema)
 def create_post(data: PostCreateSchema, session: Session = Depends(get_db)) -> PostOutputSchema:
     _service = PostService(session)
     return _service.create(data)
+
+@router.delete('/{id}', status_code=204)
+def delete_post(id: UUID4, session: Session = Depends(get_db)):
+    _service = PostService(session)
+    return _service.delete(id)
