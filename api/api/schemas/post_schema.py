@@ -9,6 +9,9 @@ class PostBase(BaseModel):
 class PostCreateSchema(PostBase):
     pass
 
+class PostEditSchema(PostBase):
+    pass
+
 class PostOutputSchema(PostBase):
     id: UUID4
 

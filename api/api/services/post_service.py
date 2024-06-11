@@ -5,7 +5,7 @@ from pydantic import UUID4
 from sqlalchemy.orm import Session
 
 from api.repositories.post_repository import PostRepository
-from api.schemas.post_schema import PostCreateSchema, PostOutputSchema
+from api.schemas.post_schema import PostCreateSchema, PostEditSchema, PostOutputSchema
 
 
 class PostService:
@@ -25,6 +25,14 @@ class PostService:
 
     def create(self, data: PostCreateSchema) -> PostOutputSchema:
         return self.repository.create(data)
+
+    def update(self, id: UUID4, data: PostEditSchema) -> PostOutputSchema:
+        post = self.repository.get_by_id(id)
+
+        if not post:
+            raise HTTPException(status_code=404, detail='Post not found')
+
+        return self.repository.update(post, data)
 
     def delete(self, id: UUID4) -> bool:
         post = self.repository.get_by_id(id)

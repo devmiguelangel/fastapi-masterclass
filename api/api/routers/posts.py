@@ -5,7 +5,7 @@ from pydantic import UUID4
 from sqlalchemy.orm import Session
 
 from api.models.database import get_db
-from api.schemas.post_schema import PostCreateSchema, PostOutputSchema
+from api.schemas.post_schema import PostCreateSchema, PostEditSchema, PostOutputSchema
 from api.services.post_service import PostService
 
 router = APIRouter(
@@ -27,6 +27,11 @@ def get_post(id: UUID4, session: Session = Depends(get_db)):
 def create_post(data: PostCreateSchema, session: Session = Depends(get_db)) -> PostOutputSchema:
     _service = PostService(session)
     return _service.create(data)
+
+@router.put('/{id}', status_code=200, response_model=PostOutputSchema)
+def update_post(id: UUID4, data: PostEditSchema, session: Session = Depends(get_db)):
+    _service = PostService(session)
+    return _service.update(id, data)
 
 @router.delete('/{id}', status_code=204)
 def delete_post(id: UUID4, session: Session = Depends(get_db)):

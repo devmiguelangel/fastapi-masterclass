@@ -4,7 +4,7 @@ from pydantic import UUID4
 from sqlalchemy.orm import Session
 
 from api.models.posts import Post
-from api.schemas.post_schema import PostCreateSchema, PostOutputSchema
+from api.schemas.post_schema import PostCreateSchema, PostEditSchema, PostOutputSchema
 
 
 class PostRepository:
@@ -26,7 +26,15 @@ class PostRepository:
 
         return PostOutputSchema(**post.__dict__)
 
+    def update(self, post: Type[Post], data: PostEditSchema) -> PostOutputSchema:
+        for key, value in data.model_dump(exclude_none=True).items():
+            setattr(post, key, value)
+
+        self.db.commit()
+        self.db.refresh(post)
+        return PostOutputSchema(**post.__dict__)
+
     def delete(self, post: Type[Post]) -> bool:
-        self.db.delete(post)
+        post.delete(synchronize_session=False)
         self.db.commit()
         return True
