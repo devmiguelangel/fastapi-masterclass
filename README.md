@@ -1,55 +1,71 @@
-# FastAPI masterclass
+## FastAPI masterclass
 
 This repository contains the code and notes for the FastAPI course.
 
 > #### If you find this resource useful, support it by giving it a "★ Star" in the repository. Thank you!
 
-# Summary
-## Introduction and Basics
-### [x][Introduction to FastAPI](./docs/01-introduction.md)
+## Summary
+### Introduction and Basics
+- [x] [Introduction to FastAPI](./docs/01-introduction.md)
 - Overview of FastAPI
 - Installation and project setup
 - Creating your first FastAPI application
 
-### [x][Managing Dependencies with Poetry and API Testing with Ruff](./docs/02-poetry-ruff.md)
+- [x] [Managing Dependencies with Poetry and API Testing with Ruff](./docs/02-poetry-ruff.md)
 - Introduction to Poetry
 - Managing Project Dependencies with Poetry
 - Creating a FastAPI Project with Poetry
 - Introduction to API Testing with Ruff
 - Writing API Tests with Ruff
 
-## Dive into FastAPI
-### [x][Request and Response Handling](./docs/03-request-handling.md)
+### Dive into FastAPI
+- [x] [Request and Response Handling](./docs/03-request-handling.md)
 - Dive into handling HTTP requests and responses in FastAPI
 - Handling different types of requests (GET, POST, PUT, DELETE)
 - Path parameters, query parameters, and request bodies
 - JSON and form data
 - Dependency injection and its use in FastAPI
 
-### [ ]Exception Handling and Custom Responses
+- [ ] [Exception Handling and Custom Responses](#)
 - Handling errors and exceptions
 - Customizing response formats
 - Exception handling best practices
 
-### [x][FastAPI Models and Pydantic](./docs/04-pydantic.md)
+- [x] [FastAPI Models and Pydantic](./docs/04-pydantic.md)
 - Understand how to use Pydantic models in FastAPI applications.
 - Validate and parse incoming request data with Pydantic models.
 - Explore data validation and serialization techniques.
 
-## Intermediate FastAPI Concepts
-### Authentication and Authorization
+### Database Integration
+- [x] [SQLAlchemy Integration](./docs/05-sqlalchemy.md)
+- Integrating SQLAlchemy with FastAPI
+- CRUD operations with SQLAlchemy models
+- Handling database sessions and transactions
+
+- [ ] [MongoDB Integration](#)
+- Working with MongoDB in FastAPI
+- CRUD operations with Pydantic and MongoDB models
+- Asynchronous database operations
+
+- [x] [Database Migrations and Alembic](./docs/06-migrations.md)
+- Managing database migrations with Alembic
+- Applying schema changes and versioning
+- Automating database migration workflows
+
+### Intermediate FastAPI Concepts
+- [ ] [Authentication and Authorization](#)
 Introduction to authentication in FastAPI
 OAuth2, JWT, and API key authentication
 Role-based authorization and permissions
 Secure your endpoints with authorization checks.
 External authentication with services like Google, GitHub, etc.
 
-### Background Tasks and Periodic Jobs
+- [ ] [Background Tasks and Periodic Jobs](#)
 Implementing background tasks in FastAPI
 Scheduling periodic jobs with FastAPI
 Using libraries like Celery for asynchronous tasks
 
-### File Uploads and Static Files
+- [ ] [File Uploads and Static Files](#)
 Handling file uploads in FastAPI
 Serving static files and assets
 Working with FormData and file uploads
@@ -78,22 +94,6 @@ Caching strategies in FastAPI
 Adding caching to FastAPI applications
 Performance optimization techniques
 Profiling and debugging FastAPI applications
-
-## Database Integration
-## SQLAlchemy Integration
-Integrating SQLAlchemy with FastAPI
-CRUD operations with SQLAlchemy models
-Handling database sessions and transactions
-
-### MongoDB Integration
-Working with MongoDB in FastAPI
-CRUD operations with Pydantic and MongoDB models
-Asynchronous database operations
-
-### Database Migrations and Alembic
-Managing database migrations with Alembic
-Applying schema changes and versioning
-Automating database migration workflows
 
 ## Optimization and Deployment
 ### Testing and Documentation
