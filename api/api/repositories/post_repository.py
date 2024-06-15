@@ -1,7 +1,7 @@
 from typing import List, Optional, Type
 
 from pydantic import UUID4
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from api.models.posts import Post
 from api.schemas.post_schema import PostCreateSchema, PostEditSchema, PostOutputSchema
@@ -10,16 +10,25 @@ from api.schemas.post_schema import PostCreateSchema, PostEditSchema, PostOutput
 class PostRepository:
     def __init__(self, db: Session):
         self.db = db
+        self.__user_id = None
+
+    @property
+    def user_id(self):
+        return self.__user_id
+
+    @user_id.setter
+    def user_id(self, value):
+        self.__user_id = value
 
     def get_all(self) -> List[Optional[PostOutputSchema]]:
-        posts = self.db.query(Post).all()
+        posts = self.db.query(Post).options(joinedload(Post.user)).filter(Post.user_id == self.user_id).all()
         return [PostOutputSchema(**post.__dict__) for post in posts]
 
     def get_by_id(self, id: UUID4) -> Type[Optional[Post]]:
-        return self.db.query(Post).filter(Post.id == id).first()
+        return self.db.query(Post).options(joinedload(Post.user)).filter(Post.id == id).first()
 
     def create(self, data: PostCreateSchema) -> PostOutputSchema:
-        post = Post(**data.model_dump())
+        post = Post(user_id=self.user_id, **data.model_dump())
         self.db.add(post)
         self.db.commit()
         self.db.refresh(post)
@@ -35,6 +44,6 @@ class PostRepository:
         return PostOutputSchema(**post.__dict__)
 
     def delete(self, post: Type[Post]) -> bool:
-        post.delete(synchronize_session=False)
+        self.db.delete(post)
         self.db.commit()
         return True

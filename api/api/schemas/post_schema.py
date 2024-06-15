@@ -1,5 +1,7 @@
 from pydantic import UUID4, BaseModel
 
+from api.schemas.user_schema import UserOutputSchema
+
 
 class PostBase(BaseModel):
     title: str
@@ -14,6 +16,7 @@ class PostEditSchema(PostBase):
 
 class PostOutputSchema(PostBase):
     id: UUID4
+    user: UserOutputSchema
 
     class Config:
         from_attributes = True

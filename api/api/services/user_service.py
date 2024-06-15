@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from fastapi import HTTPException, status
-from pydantic import UUID4
+from pydantic import UUID4, EmailStr
 from sqlalchemy.orm import Session
 
 from api.repositories.user_repository import UserRepository
@@ -20,6 +20,14 @@ class UserService:
 
         if not user:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'User with id {id} not found')
+
+        return UserOutputSchema(**user.__dict__)
+
+    def get_by_email(self, email: EmailStr) -> Optional[UserOutputSchema]:
+        user = self.repository.get_by_email(email)
+
+        if not user:
+            return None
 
         return UserOutputSchema(**user.__dict__)
 

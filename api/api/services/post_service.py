@@ -11,6 +11,16 @@ from api.schemas.post_schema import PostCreateSchema, PostEditSchema, PostOutput
 class PostService:
     def __init__(self, db: Session):
         self.repository = PostRepository(db)
+        self.__user_id = None
+
+    @property
+    def user_id(self):
+        return self.__user_id
+
+    @user_id.setter
+    def user_id(self, value):
+        self.repository.user_id = value
+        self.__user_id = value
 
     def get_all(self) -> List[Optional[PostOutputSchema]]:
         return self.repository.get_all()
@@ -20,6 +30,9 @@ class PostService:
 
         if not post:
             raise HTTPException(status_code=404, detail='Post not found')
+
+        if post.user_id != self.user_id:
+            raise HTTPException(status_code=403, detail='You are not allowed to view this post')
 
         return PostOutputSchema(**post.__dict__)
 
@@ -32,6 +45,9 @@ class PostService:
         if not post:
             raise HTTPException(status_code=404, detail='Post not found')
 
+        if post.user_id != self.user_id:
+            raise HTTPException(status_code=403, detail='You are not allowed to update this post')
+
         return self.repository.update(post, data)
 
     def delete(self, id: UUID4) -> bool:
@@ -39,5 +55,8 @@ class PostService:
 
         if not post:
             raise HTTPException(status_code=404, detail='Post not found')
+
+        if post.user_id != self.user_id:
+            raise HTTPException(status_code=403, detail='You are not allowed to delete this post')
 
         return self.repository.delete(post)

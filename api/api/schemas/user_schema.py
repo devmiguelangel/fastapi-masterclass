@@ -17,7 +17,3 @@ class UserCreateSchema(BaseModel):
 class UserOutputSchema(UserBase):
     class Config:
         from_attributes = True
-
-class AuthCredentialsSchema(BaseModel):
-    email: EmailStr
-    password: str
