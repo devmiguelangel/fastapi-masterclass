@@ -53,7 +53,7 @@ This repository contains the code and notes for the FastAPI course.
 - Automating database migration workflows
 
 ### Intermediate FastAPI Concepts
-- [ ] [Authentication and Authorization](#)
+- [x] [Authentication and Authorization](./docs/07-auth.md)
 Introduction to authentication in FastAPI
 OAuth2, JWT, and API key authentication
 Role-based authorization and permissions
