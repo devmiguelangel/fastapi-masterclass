@@ -5,7 +5,7 @@ from pydantic import UUID4
 from sqlalchemy.orm import Session
 
 from api.repositories.post_repository import PostRepository
-from api.schemas.post_schema import PostCreateSchema, PostEditSchema, PostOutputSchema
+from api.schemas.post_schema import PostCreateSchema, PostEditSchema, PostOutputSchema, PostParamsSchema
 
 
 class PostService:
@@ -22,8 +22,8 @@ class PostService:
         self.repository.user_id = value
         self.__user_id = value
 
-    def get_all(self) -> List[Optional[PostOutputSchema]]:
-        return self.repository.get_all()
+    def get_all(self, query_params: PostParamsSchema) -> List[Optional[PostOutputSchema]]:
+        return self.repository.get_all(query_params)
 
     def get_by_id(self, id: UUID4) -> Optional[PostOutputSchema]:
         post = self.repository.get_by_id(id)

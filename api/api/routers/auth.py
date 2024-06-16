@@ -14,6 +14,9 @@ router = APIRouter(
 )
 
 @router.post('/login', status_code=status.HTTP_200_OK)
-def login(credentials: Annotated[OAuth2PasswordRequestForm, Depends()], session: Session = Depends(get_db)) -> TokenSchema:
+def login(
+    credentials: Annotated[OAuth2PasswordRequestForm, Depends()],
+    session: Session = Depends(get_db)
+) -> TokenSchema:
     _service = AuthService(session)
     return _service.get_access_token(credentials)

@@ -70,26 +70,26 @@ Handling file uploads in FastAPI
 Serving static files and assets
 Working with FormData and file uploads
 
-## Advanced FastAPI Topics
-### WebSocket Support
+### Advanced FastAPI Topics
+- [ ] [WebSocket Support](#)
 Introduction to WebSocket in FastAPI
 Create WebSocket endpoints and handle real-time communication
 Implement WebSocket authentication and security.
 Broadcasting messages with WebSocket
 
-### Custom Middleware and Extensions
+- [ ] [Custom Middleware and Extensions](#)
 Implementing custom middleware in FastAPI
 Logging, monitoring, and request/response manipulation with middleware
 Applying middleware to specific routes or globally
 Creating custom extensions and plugins
 Integrating with third-party middleware
 
-### Rate Limiting and Security
+- [ ] [Rate Limiting and Security](#)
 Implementing rate limiting to prevent abuse
 Protecting against common security threats (SQL injection, XSS, CSRF)
 Using security headers for enhanced security
 
-### Caching and Performance Optimization
+- [ ] [Caching and Performance Optimization](#)
 Caching strategies in FastAPI
 Adding caching to FastAPI applications
 Performance optimization techniques

@@ -4,7 +4,7 @@ from pydantic import UUID4
 from sqlalchemy.orm import Session, joinedload
 
 from api.models.posts import Post
-from api.schemas.post_schema import PostCreateSchema, PostEditSchema, PostOutputSchema
+from api.schemas.post_schema import PostCreateSchema, PostEditSchema, PostOutputSchema, PostParamsSchema
 
 
 class PostRepository:
@@ -20,8 +20,12 @@ class PostRepository:
     def user_id(self, value):
         self.__user_id = value
 
-    def get_all(self) -> List[Optional[PostOutputSchema]]:
-        posts = self.db.query(Post).options(joinedload(Post.user)).filter(Post.user_id == self.user_id).all()
+    def get_all(self, query_params: PostParamsSchema) -> List[Optional[PostOutputSchema]]:
+        posts = self.db.query(Post).options(joinedload(Post.user)) \
+                    .filter(Post.user_id == self.user_id, Post.title.icontains(query_params['search'])) \
+                    .limit(query_params['limit']) \
+                    .offset(query_params['skip']) \
+                    .all()
         return [PostOutputSchema(**post.__dict__) for post in posts]
 
     def get_by_id(self, id: UUID4) -> Type[Optional[Post]]:
