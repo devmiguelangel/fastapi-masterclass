@@ -1,8 +1,11 @@
 from uuid import uuid4
 
-from sqlalchemy import TIMESTAMP, Boolean, Column, ForeignKey, String, text
+from sqlalchemy import TIMESTAMP, Boolean, Column, ForeignKey, String, func, text
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
+
+from api.models.votes import Vote
 
 from .database import Base
 
@@ -19,3 +22,15 @@ class Post(Base):
     updated_at = Column(TIMESTAMP(timezone=True), nullable=False, default=text('NOW()'), onupdate=text('NOW()'))
 
     user = relationship('User')
+    votes = relationship('Vote')
+
+    @hybrid_property
+    def votes_count(self):
+        return len(self.votes)
+
+    @votes_count.expression
+    @classmethod
+    def votes_count(cls):
+        return (
+            func.count(Vote.post_id)
+        )

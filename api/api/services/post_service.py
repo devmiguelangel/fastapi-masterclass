@@ -31,16 +31,16 @@ class PostService:
         if not post:
             raise HTTPException(status_code=404, detail='Post not found')
 
-        if post.user_id != self.user_id:
+        if post.Post.user_id != self.user_id:
             raise HTTPException(status_code=403, detail='You are not allowed to view this post')
 
-        return PostOutputSchema(**post.__dict__)
+        return PostOutputSchema(**post.Post.__dict__, votes=post.votes_count)
 
     def create(self, data: PostCreateSchema) -> PostOutputSchema:
         return self.repository.create(data)
 
     def update(self, id: UUID4, data: PostEditSchema) -> PostOutputSchema:
-        post = self.repository.get_by_id(id)
+        post = self.repository.get_by_id_query(id).first()
 
         if not post:
             raise HTTPException(status_code=404, detail='Post not found')
@@ -51,7 +51,7 @@ class PostService:
         return self.repository.update(post, data)
 
     def delete(self, id: UUID4) -> bool:
-        post = self.repository.get_by_id(id)
+        post = self.repository.get_by_id_query(id).first()
 
         if not post:
             raise HTTPException(status_code=404, detail='Post not found')

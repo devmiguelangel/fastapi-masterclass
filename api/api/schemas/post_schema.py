@@ -23,6 +23,7 @@ class PostEditSchema(PostBase):
 
 class PostOutputSchema(PostBase):
     id: UUID4
+    votes: Optional[int] = 0
     user: UserOutputSchema
 
     class Config:
