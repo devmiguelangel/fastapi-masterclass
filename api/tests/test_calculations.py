@@ -1,8 +1,16 @@
+import pytest
+
 from api.calculations import add, divide, multiply, subtract
 
 
-def test_add():
-    assert add(1, 1) == 2
+@pytest.mark.parametrize('a, b, expected', [
+    (1, 1, 2),
+    (2, 3, 5),
+    (4, 5, 9),
+    (10, 2, 12),
+])
+def test_add(a, b, expected):
+    assert add(a, b) == expected
 
 
 def test_subtract():
