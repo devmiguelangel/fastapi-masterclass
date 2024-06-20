@@ -1,6 +1,6 @@
 import pytest
 
-from api.calculations import BankAccount, add, divide, multiply, subtract
+from api.calculations import BankAccount, InsufficientFundsException, add, divide, multiply, subtract
 
 
 @pytest.fixture()
@@ -60,7 +60,7 @@ def test_bank_account_collect_interest(bank_account):
 
 @pytest.mark.parametrize('deposit, withdraw, expected', [
     (200, 100, 100),
-    (100, 200, -100),
+    (1000, 200, 800),
     (0, 0, 0),
     (100, 100, 0),
 ])
@@ -69,3 +69,8 @@ def test_bank_account_transactions(zero_bank_account, deposit, withdraw, expecte
     zero_bank_account.withdraw(withdraw)
 
     assert zero_bank_account.balance == expected
+
+
+def test_bank_account_insufficient_funds(zero_bank_account):
+    with pytest.raises(InsufficientFundsException):
+        zero_bank_account.withdraw(100)
