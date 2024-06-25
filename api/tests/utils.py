@@ -17,6 +17,7 @@ def migrate_in_memory(migrations_path, alembic_ini_path='alembic.ini', connectio
     if connection is not None:
         config.attributes['connection'] = connection
 
+    command.downgrade(config, 'base')
     command.upgrade(config, revision)
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
