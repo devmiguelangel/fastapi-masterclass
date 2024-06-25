@@ -1,34 +1,8 @@
-import pytest
 from fastapi import status
-from fastapi.testclient import TestClient
+import pytest
 
-from api.models.database import get_db
 from api.schemas.auth_schema import TokenSchema
 from api.schemas.user_schema import UserOutputSchema
-from main import app
-
-from .utils import TestingSessionLocal
-
-
-@pytest.fixture(scope='session')
-def session():
-    db = TestingSessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-@pytest.fixture(scope='session')
-def client(session):
-    def override_get_db():
-        try:
-            yield session
-        finally:
-            session.close()
-    app.dependency_overrides[get_db] = override_get_db
-
-    yield TestClient(app)
 
 
 def test_root(client):
@@ -56,3 +30,17 @@ def test_auth_login(client):
     assert res.status_code == status.HTTP_200_OK
     assert token.access_token is not None
     assert token.token_type == 'bearer'
+
+
+@pytest.mark.parametrize(('email', 'password', 'status_code'), [
+    ('wrongEmail@email.com', 'password123', status.HTTP_404_NOT_FOUND),
+    ('someUser@email.com', 'wrongPassword123', status.HTTP_404_NOT_FOUND),
+    ('wrongEmail@email.com', 'wrongPassword123', status.HTTP_404_NOT_FOUND),
+    (None, 'password123', status.HTTP_422_UNPROCESSABLE_ENTITY),
+    ('someUser@email.com', None, status.HTTP_422_UNPROCESSABLE_ENTITY),
+])
+def test_auth_login_invalid(client, email, password, status_code):
+    data = {'username': email, 'password': password}
+    res = client.post('/api/v1/auth/login', data=data)
+
+    assert res.status_code == status_code

@@ -1,3 +1,5 @@
+import pytest
+from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, sessionmaker
@@ -5,6 +7,8 @@ from sqlalchemy.orm import Session, sessionmaker
 from alembic import command
 from alembic.config import Config
 from api.config.settings import Settings
+from api.models.database import get_db
+from main import app
 
 settings = Settings()
 
@@ -38,3 +42,24 @@ def override_get_db():
         raise
     finally:
         db.close()
+
+
+@pytest.fixture(scope='session')
+def session():
+    db = TestingSessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+@pytest.fixture(scope='session')
+def client(session):
+    def override_get_db():
+        try:
+            yield session
+        finally:
+            session.close()
+    app.dependency_overrides[get_db] = override_get_db
+
+    yield TestClient(app)
