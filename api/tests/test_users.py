@@ -3,13 +3,14 @@ from fastapi import status
 from fastapi.testclient import TestClient
 
 from api.models.database import get_db
+from api.schemas.auth_schema import TokenSchema
 from api.schemas.user_schema import UserOutputSchema
 from main import app
 
 from .utils import TestingSessionLocal
 
 
-@pytest.fixture()
+@pytest.fixture(scope='session')
 def session():
     db = TestingSessionLocal()
     try:
@@ -18,7 +19,7 @@ def session():
         db.close()
 
 
-@pytest.fixture()
+@pytest.fixture(scope='session')
 def client(session):
     def override_get_db():
         try:
@@ -44,3 +45,14 @@ def test_create_user(client):
     assert res.status_code == status.HTTP_201_CREATED
     assert user.email == 'test01@email.com'
     assert user.username == 'test01'
+
+
+def test_auth_login(client):
+    data = {'username': 'test01@email.com', 'password': 'test01'}
+    res = client.post('/api/v1/auth/login', data=data)
+
+    token = TokenSchema(**res.json())
+
+    assert res.status_code == status.HTTP_200_OK
+    assert token.access_token is not None
+    assert token.token_type == 'bearer'
