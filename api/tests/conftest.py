@@ -1,4 +1,5 @@
 import pytest
+from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -8,6 +9,8 @@ from alembic import command
 from alembic.config import Config
 from api.config.settings import Settings
 from api.models.database import get_db
+from api.schemas.user_schema import UserOutputSchema
+from api.utils.oauth2 import create_access_token
 from main import app
 
 settings = Settings()
@@ -63,3 +66,31 @@ def client(session):
     app.dependency_overrides[get_db] = override_get_db
 
     yield TestClient(app)
+
+
+@pytest.fixture(scope='session')
+def test_user(client):
+    data = {'email': 'john@email.com', 'username': 'john', 'password': 'password123'}
+    res = client.post('/api/v1/users', json=data)
+
+    user = UserOutputSchema(**res.json())
+    assert res.status_code == status.HTTP_201_CREATED
+    assert user.email == 'john@email.com'
+    assert user.username == 'john'
+
+    return data
+
+
+@pytest.fixture(scope='session')
+def token(test_user):
+    return create_access_token(data={'sub': test_user['email']})
+
+
+@pytest.fixture(scope='session')
+def authorized_client(client, token):
+    client.headers = {
+        **client.headers,
+        'Authorization': f'Bearer {token}',
+    }
+
+    return client

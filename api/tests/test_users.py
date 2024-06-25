@@ -1,9 +1,11 @@
-from fastapi import status
 import pytest
+from fastapi import status
+from jose import jwt
 
+from api.config.settings import Settings
 from api.schemas.auth_schema import TokenSchema
-from api.schemas.user_schema import UserOutputSchema
 
+settings = Settings()
 
 def test_root(client):
     res = client.get('/')
@@ -11,21 +13,14 @@ def test_root(client):
     assert res.json() == {'Hello': 'World'}
 
 
-def test_create_user(client):
-    data = {'email': 'test01@email.com', 'username': 'test01', 'password': 'test01'}
-    res = client.post('/api/v1/users', json=data)
-
-    user = UserOutputSchema(**res.json())
-    assert res.status_code == status.HTTP_201_CREATED
-    assert user.email == 'test01@email.com'
-    assert user.username == 'test01'
-
-
-def test_auth_login(client):
-    data = {'username': 'test01@email.com', 'password': 'test01'}
+def test_auth_login(client, test_user):
+    data = {'username': test_user['email'], 'password': test_user['password']}
     res = client.post('/api/v1/auth/login', data=data)
 
     token = TokenSchema(**res.json())
+    payload = jwt.decode(token.access_token, settings.secret_key, algorithms=[settings.algorithm])
+
+    assert payload.get('sub') == test_user['email']
 
     assert res.status_code == status.HTTP_200_OK
     assert token.access_token is not None
