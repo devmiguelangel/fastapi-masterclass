@@ -122,7 +122,7 @@ Deploy your FastAPI application to a cloud platform (e.g., AWS, Heroku)
 Configure production-ready settings and optimizations
 Scaling FastAPI applications horizontally
 
-- [ ] Continuous Integration and Deployment (CI/CD)
+- [x] [Continuous Integration and Deployment (CI/CD)](./docs/09-ci-cd.md)
 Setting up CI/CD pipelines for FastAPI projects
 Automated testing and deployment with tools like GitHub Actions or GitLab CI
 Deploying FastAPI applications to cloud platforms (AWS, Azure, GCP)
