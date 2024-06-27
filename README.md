@@ -95,8 +95,8 @@ Adding caching to FastAPI applications
 Performance optimization techniques
 Profiling and debugging FastAPI applications
 
-## Optimization and Deployment
-### Testing and Documentation
+### Optimization and Deployment
+- [x] [Testing and Documentation](./docs/08-testing.md)
 Learn the basics of testing FastAPI applications.
 Writing unit tests for FastAPI applications
 Using pytest for testing FastAPI endpoints
@@ -107,32 +107,32 @@ Strategies for API versioning
 Handling backward and forward compatibility
 Versioning best practices in FastAPI
 
-### Performance Optimization
+- [ ] Performance Optimization
 Identifying performance bottlenecks in FastAPI applications
 Techniques for optimizing database queries
 Caching and lazy loading for improved performance
 
-### Docker and Containerization
+- [ ] Docker and Containerization
 Containerize your FastAPI application using Docker
 Deploy your containerized FastAPI app locally
 
-### Deployment to Production
+- [ ] Deployment to Production
 Explore deployment options for FastAPI applications
 Deploy your FastAPI application to a cloud platform (e.g., AWS, Heroku)
 Configure production-ready settings and optimizations
 Scaling FastAPI applications horizontally
 
-### Continuous Integration and Deployment (CI/CD)
+- [ ] Continuous Integration and Deployment (CI/CD)
 Setting up CI/CD pipelines for FastAPI projects
 Automated testing and deployment with tools like GitHub Actions or GitLab CI
 Deploying FastAPI applications to cloud platforms (AWS, Azure, GCP)
 
-### Monitoring and Logging
+- [ ] Monitoring and Logging
 Implementing logging in FastAPI applications
 Integrating with logging services like ELK stack or Splunk
 Monitoring application health and performance metrics
 
-### API Security Best Practices
+- [ ] API Security Best Practices
 Securing FastAPI applications against common vulnerabilities
 Rate limiting and throttling strategies
 Implementing HTTPS and CORS correctly
