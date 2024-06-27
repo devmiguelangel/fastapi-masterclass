@@ -1,5 +1,6 @@
 volumes:
   db: {}
+  db_test: {}
 
 services:
   api:
@@ -16,6 +17,7 @@ services:
       - '8001:8001'
     depends_on:
       - db
+      - db_test
     restart: unless-stopped
 
   db:
@@ -27,4 +29,15 @@ services:
       - ./compose/db.env
     ports:
       - '5432:5432'
+    restart: unless-stopped
+
+  db_test:
+    image: postgres:16.3-alpine
+    container_name: ms_db_test
+    volumes:
+      - db_test:/var/lib/postgresql/data
+    env_file:
+      - ./compose/db_test.env
+    ports:
+      - '5433:5432'
     restart: unless-stopped
