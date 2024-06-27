@@ -4,6 +4,23 @@ on: [push, pull_request]
 
 jobs:
   build:
+    environment:
+      name: testing
+    env:
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_TEST_HOST: ${{ secrets.DB_TEST_HOST }}
+      DB_TEST_PORT: ${{ secrets.DB_TEST_PORT }}
+      DB_TEST_USER: ${{ secrets.DB_TEST_USER }}
+      DB_TEST_PASSWORD: ${{ secrets.DB_TEST_PASSWORD }}
+      DB_TEST_NAME: ${{ secrets.DB_TEST_NAME }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      ALGORITHM: ${{ secrets.ALGORITHM }}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
