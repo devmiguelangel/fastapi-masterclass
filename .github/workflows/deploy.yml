@@ -21,6 +21,21 @@ jobs:
       ALGORITHM: ${{ secrets.ALGORITHM }}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
 
+    services:
+      postgres:
+        image: postgres:16.3-alpine
+        env:
+          POSTGRES_USER: ${{ secrets.DB_TEST_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_TEST_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.DB_TEST_NAME }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,7 +50,7 @@ jobs:
         working-directory: ./api
         run: |
           python -m pip install --upgrade pip
-          pip install poetry
+          pip install poetry -v
           poetry install --no-root
 
       - name: Run tests
