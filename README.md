@@ -5,6 +5,7 @@ This repository contains the code and notes for the FastAPI course.
 > #### If you find this resource useful, support it by giving it a "★ Star" in the repository. Thank you!
 
 ## Summary
+
 ### Introduction and Basics
 - [x] [Introduction to FastAPI](./docs/01-introduction.md)
 - Overview of FastAPI

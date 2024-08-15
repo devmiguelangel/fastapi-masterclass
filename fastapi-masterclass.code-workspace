@@ -1,5 +1,9 @@
 {
 	"folders": [
+    {
+      "path": "./python",
+      "name": "PYTHON"
+    },
 		{
 			"path": "./api",
       "name": "API"
